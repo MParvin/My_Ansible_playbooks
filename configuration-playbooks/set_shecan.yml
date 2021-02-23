@@ -1,0 +1,22 @@
+---
+- name: Change DNS to Shecan
+  hosts: "{{ host_name | default('all') }}"
+  become: true
+
+  tasks:
+    - name: Ensure resolv.conf is mutable
+      file:
+        path: /etc/resolv.conf
+        attr: -i
+
+    - name: Create resolv.conf
+      copy:
+        dest: /etc/resolv.conf
+        content: |
+          nameserver 178.22.122.100
+          nameserver 185.51.200.2
+
+    - name: Ensure resolv.conf is immutable
+      file:
+        path: /etc/resolv.conf
+        attr: +i
