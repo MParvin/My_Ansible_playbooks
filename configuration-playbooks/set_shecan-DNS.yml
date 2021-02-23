@@ -1,7 +1,6 @@
 ---
 - name: change DNS to shecan
   hosts: "{{ host_name | default('all') }}"
-  # debugger: on_skipped
   become: true
 
   tasks:
@@ -28,9 +27,9 @@
 
     - name: Apply netplan
       when: ansible_distribution == "Ubuntu" and result.stdout == ""
-      # debug: var=result.stdout_lines
       shell: /usr/sbin/netplan apply
-
+    
+    # Others
     - name: Update Redhat or Debian
       when: ansible_distribution != "Ubuntu"
       copy:
